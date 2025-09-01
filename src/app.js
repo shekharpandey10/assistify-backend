@@ -1,16 +1,23 @@
 import dotenv from "dotenv";
-dotenv.config()
+dotenv.config();
+
 import express from "express";
 import cors from "cors";
-import authRoutes from "./routes/authRoutes.js";
 
-// dotenv.config();
+// Routes
+import authRoutes from "./routes/authRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import faqRoutes from "./routes/faqRoutes.js";
 
 const app = express();
 
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
+console.log('hello from app')
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/faqs", faqRoutes);
 
 export default app;
