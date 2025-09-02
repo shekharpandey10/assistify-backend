@@ -1,14 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
-import faqRoutes from "./routes/faqRoutes.js";
-
-app.use("/faqs", faqRoutes);
-
-
-
 import http from "http";
 import app from "./app.js";
 import connectDB from "./config/Config.js";
+
+
 
 console.log(process.env.PORT, "port")
 
