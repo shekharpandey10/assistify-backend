@@ -1,6 +1,7 @@
-import dotenv from "dotenv";
-dotenv.config();
 import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 if (!process.env.GEMINI_API_KEY) {
   console.warn("⚠️ GEMINI_API_KEY is not set in .env");
@@ -10,30 +11,29 @@ const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
 
-export const getAIResponse = async (userMessage, conversationHistory = []) => {
+/**
+ * Get AI response using Gemini
+ * @param {Array} conversationMessages -> Array of messages with role/content
+ * @returns {string}
+ */
+export const getAIResponse = async (conversationMessages) => {
   try {
-    const systemPrompt = "You are a helpful AI customer support assistant.";
-    console.log(conversationHistory,'  history from ai side')
-    console.log(userMessage,' from ai side')
-    // Prepare structured conversation messages
-    const messages = [
-      { role: "system", content: systemPrompt },
-      ...conversationHistory.filter(msg => msg.role && msg.content)
-    ];
-
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: messages.map(msg => ({
+      contents: conversationMessages.map(msg => ({
         type: "text",
         text: msg.content
       })),
     });
-     const aiText =
-      response?.candidates?.[0]?.content?.parts?.map(p => p.text).join("\n") ||
-      "AI could not generate a response.";
-               
 
-    return aiText;
+    let aiText = response?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    aiText = aiText.replace(/\n{2,}/g, "\n").trim();
+
+    
+    const sentences = aiText.match(/[^.!?]+[.!?]*/g) || [];
+    const shortText = sentences.slice(0, 3).join(" ").trim();
+
+    return shortText || "AI could not generate a response.";
   } catch (error) {
     console.error("Gemini API error:", error);
     return "AI could not generate a response.";
