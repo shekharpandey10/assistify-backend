@@ -12,7 +12,10 @@ import faqRoutes from "./routes/faqRoutes.js";
 const app = express();
 
 // Middlewares
-app.use(cors());
+app.use(cors({
+  origin: ["https://assistify-frontend.vercel.app", "http://localhost:3000"],
+  credentials: true
+}));
 app.use(express.json());
 
 console.log('hello from app')
