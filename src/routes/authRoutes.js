@@ -6,11 +6,11 @@ import { adminAuth } from "../middlewares/admin.js";
 
 const router = express.Router();
 
-// Public routes
+// Public 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 
-// Private route (requires token)
+// Private route 
 router.get("/profile",protect, getProfile);
 router.patch("/make-admin/:userId", protect, adminAuth, makeAdmin);
 

@@ -1,4 +1,3 @@
-// backend/src/routes/chatRoutes.js
 import express from "express";
 import { sendMessage, getChatHistory } from "../controllers/chatController.js";
 import { protect } from "../middlewares/authMiddleware.js";

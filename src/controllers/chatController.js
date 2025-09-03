@@ -5,7 +5,7 @@ import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({});
 
-// Compute embedding for a query
+// Compute embedding 
 const getQueryEmbedding = async (text) => {
   const response = await ai.models.embedContent({
     model: "gemini-embedding-001",
@@ -37,7 +37,7 @@ export const sendMessage = async (req, res) => {
 
     // Embed the user query
     const queryEmbedding = await getQueryEmbedding(userMessage);
-    console.log('user vector ',queryEmbedding)
+    console.log('user vector ', queryEmbedding)
 
     // Fetch all contexts with embeddings
     const contexts = await Context.find({ embedding: { $exists: true, $ne: [] } });
@@ -50,12 +50,12 @@ export const sendMessage = async (req, res) => {
       }))
       .sort((a, b) => b.score - a.score)
       .slice(0, 3); // top 3 relevant contexts
-console.log( topContexts, '.... top context......//////')
+    console.log(topContexts, '.... top context......//////')
     // Combine top contexts into a system prompt
     const contextText = topContexts
       .map(({ ctx }) => `${ctx.title}: ${ctx.content}`)
       .join("\n\n");
-console.log('....start',contextText,'context text')
+    console.log('....start', contextText, 'context text')
     const systemPrompt = `
 You are a helpful AI assistant. You must ONLY use the context provided below.
 If therer is any context so give the relevent reply in breaf.
@@ -106,8 +106,8 @@ export const getChatHistory = async (req, res) => {
     const conversations = await Conversation.find({ userId })
       .sort({ updatedAt: -1 });
 
-  // Flatten all messages from all conversations
-    const allMessages = conversations.flatMap(c => 
+    // Flatten all messages from all conversations
+    const allMessages = conversations.flatMap(c =>
       c.messages.map(msg => ({
         ...msg.toObject(),
         conversationId: c._id

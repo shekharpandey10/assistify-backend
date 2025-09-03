@@ -1,4 +1,3 @@
-// backend/src/routes/faqRoutes.js
 import express from "express";
 import fs from "fs";
 import { protect } from "../middlewares/authMiddleware.js";
@@ -21,14 +20,13 @@ router.post("/", protect, adminAuth, upload.single("file"), async (req, res) => 
       return res.status(400).json({ success: false, message: "Title is required" });
     }
 
-    // Extract file content if uploaded
+    // Extract file content 
     let fileContent = "";
     if (req.file) {
       fileContent = await extractFileText(req.file.path);
-      fs.unlinkSync(req.file.path); // remove file after extracting
+      fs.unlinkSync(req.file.path); // remove file 
     }
 
-    // Use either text content from body or file
     const finalContent = content || fileContent;
 
     if (!finalContent) {
@@ -37,13 +35,12 @@ router.post("/", protect, adminAuth, upload.single("file"), async (req, res) => 
         .json({ success: false, message: "Either content or file is required" });
     }
 
-    // Generate Gemini embedding
+    //  Gemini embedding
     const response = await ai.models.embedContent({
       model: "gemini-embedding-001",
       contents: [finalContent],
     });
-console.log(typeof response.embeddings); // should be 'object'
-console.log(Array.isArray(response.embeddings[0].values)); 
+
     const embeddingArray = response.embeddings[0].values; // embeddings is an array
     console.log(embeddingArray, ' embedding')
     // Save to MongoDB
@@ -102,7 +99,6 @@ router.delete("/:id", protect, adminAuth, async (req, res) => {
   }
 });
 
-//Public routes
 
 // Get all contexts
 router.get("/", async (req, res) => {
