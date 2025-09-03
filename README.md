@@ -1,48 +1,47 @@
 # Assistify – Chatbot & FAQ Backend
 
 A simple backend for a chatbot app with FAQ support.  
-Built with Node.js and Express. Uses MongoDB to store conversations and FAQs.  
-Also connects to Google Gemini for AI-powered responses.
-
-## What It Does
-
-- Users can register and log in (protected with JWT)
-- Chat with an AI using Google Gemini
-- Saves your chat history
-- Full support for adding and viewing FAQs
+Built with **Node.js** and **Express**, using **MongoDB** for data storage.  
+Integrates with **Google Gemini** for AI-powered chat responses.
 
 ---
 
-## Tech Used
-
-- Node.js + Express –> for the server
-- MongoDB + Mongoose –> to store data
-- JWT –> for user login and auth
-- Google Gemini API –> powers the AI replies
+##  Features
+-  User registration & login (JWT-protected)
+-  AI chatbot with Google Gemini
+-  Chat history storage
+-  Add, update, and view FAQs
 
 ---
 
-## How to Run
+##  Tech Stack
+- **Node.js + Express** → REST API server  
+- **MongoDB + Mongoose** → Database & models  
+- **JWT** → Authentication  
+- **Google Gemini API** → AI responses  
+
+---
+
+##  How to Run
 
 1. **Clone the repo**
    ```bash
    git clone https://github.com/shekharpandey10/assistify-backend.git
    cd assistify-backend
-   ```
+Install dependencies
 
-### Install Packages
-
-```bash
+bash
 npm install
+Set up .env
 
-
-##  .env configuration
-
+env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=any_random_string_like_myChatbotSecret123
+JWT_SECRET=your_jwt_secret_here
 GEMINI_API_KEY=your_gemini_api_key_here
+Start the server
 
-#start the server
+bash
+Copy code
 npm run dev
-```
+Server will run at: http://localhost:5000
